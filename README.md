@@ -22,12 +22,12 @@
 
 | Role | Name | Enrollment No. | GitHub Username |
 |------|------|----------------|-----------------|
-| Group Lead | | | |
+| Group Lead | Pranjal Garg | 2501010342 | pjlgrg |
 | Member 2 | | | |
 | Member 3 | | | |
 | Member 4 | | | |
 
-**Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
+**Team No.:** T0133 · **Section:** C · **Repository URL:** https://github.com/pjlgrg/DE_PROJECT_2026
 
 ---
 
