@@ -1,0 +1,27 @@
+=== W01 run 1 ===
+Insert on orders  (cost=0.00..0.01 rows=0 width=0) (actual time=0.203..0.203 rows=0 loops=1)
+  Buffers: shared hit=66
+  ->  Result  (cost=0.00..0.01 rows=1 width=228) (actual time=0.001..0.002 rows=1 loops=1)
+Planning Time: 0.034 ms
+Trigger for constraint orders_customer_id_fkey: time=0.289 calls=1
+Trigger for constraint orders_store_id_fkey: time=0.143 calls=1
+Trigger for constraint orders_rider_id_fkey: time=0.009 calls=1
+Execution Time: 0.656 ms
+=== W01 run 2 ===
+Insert on orders  (cost=0.00..0.01 rows=0 width=0) (actual time=0.178..0.178 rows=0 loops=1)
+  Buffers: shared hit=67
+  ->  Result  (cost=0.00..0.01 rows=1 width=228) (actual time=0.002..0.002 rows=1 loops=1)
+Planning Time: 0.042 ms
+Trigger for constraint orders_customer_id_fkey: time=0.284 calls=1
+Trigger for constraint orders_store_id_fkey: time=0.113 calls=1
+Trigger for constraint orders_rider_id_fkey: time=0.009 calls=1
+Execution Time: 0.597 ms
+=== W01 run 3 ===
+Insert on orders  (cost=0.00..0.01 rows=0 width=0) (actual time=0.172..0.172 rows=0 loops=1)
+  Buffers: shared hit=67
+  ->  Result  (cost=0.00..0.01 rows=1 width=228) (actual time=0.002..0.002 rows=1 loops=1)
+Planning Time: 0.038 ms
+Trigger for constraint orders_customer_id_fkey: time=0.280 calls=1
+Trigger for constraint orders_store_id_fkey: time=0.107 calls=1
+Trigger for constraint orders_rider_id_fkey: time=0.008 calls=1
+Execution Time: 0.579 ms

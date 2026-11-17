@@ -1,0 +1,104 @@
+erDiagram
+    direction LR
+    categories {
+        integer category_id PK
+        varchar category_name UK
+        boolean is_perishable
+    }
+    cities {
+        integer city_id PK
+        varchar city_name UK
+        varchar state
+    }
+    customers {
+        integer customer_id PK
+        varchar full_name
+        varchar phone UK
+        varchar email UK
+        integer city_id FK
+        timestamptz created_at
+    }
+    dark_stores {
+        integer store_id PK
+        varchar store_code UK
+        integer city_id FK
+        numeric latitude
+        numeric longitude
+        date opened_on
+        boolean is_active
+        integer max_daily_orders
+    }
+    inventory_movements {
+        integer movement_id PK
+        integer store_id FK
+        integer product_id FK
+        varchar movement_type
+        integer quantity
+        timestamptz moved_at
+    }
+    order_items {
+        integer order_id PK,FK
+        integer product_id PK,FK
+        integer quantity_ordered
+        integer quantity_delivered
+        numeric unit_price
+        integer substitute_product_id FK
+    }
+    orders {
+        integer order_id PK
+        integer customer_id FK
+        integer store_id FK
+        integer rider_id FK
+        timestamptz placed_at
+        timestamptz packed_at
+        timestamptz picked_up_at
+        timestamptz delivered_at
+        integer promised_minutes
+        numeric subtotal
+        numeric delivery_fee
+        numeric handling_fee
+        numeric small_cart_fee
+        numeric total_amount
+        varchar payment_method
+        varchar status
+    }
+    products {
+        integer product_id PK
+        varchar sku UK
+        varchar product_name
+        varchar brand
+        integer category_id FK
+        varchar pack_size
+        numeric mrp
+        integer shelf_life_days
+        boolean is_active
+    }
+    riders {
+        integer rider_id PK
+        varchar full_name
+        varchar phone UK
+        integer store_id FK
+        date joined_on
+        varchar status
+    }
+    store_inventory {
+        integer store_id PK,FK
+        integer product_id PK,FK
+        integer quantity_on_hand
+        integer reorder_level
+        numeric selling_price
+        timestamptz updated_at
+    }
+    cities ||--o{ dark_stores : has_stores
+    cities ||--o{ customers : has_customers
+    categories ||--o{ products : groups
+    dark_stores ||--o{ store_inventory : stocks
+    products ||--o{ store_inventory : stocked_at
+    dark_stores ||--o{ riders : has_riders
+    dark_stores ||--o{ orders : serves
+    customers ||--o{ orders : places
+    riders |o--o{ orders : assigned_to
+    orders ||--o{ order_items : contains
+    products ||--o{ order_items : ordered_product
+    products |o--o{ order_items : substitute
+    store_inventory ||--o{ inventory_movements : has_movements

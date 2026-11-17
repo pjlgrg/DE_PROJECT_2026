@@ -29,6 +29,41 @@
 
 **Team No.:** T0133 · **Section:** C · **Repository URL:** https://github.com/pjlgrg/DE_PROJECT_2026
 
+## CP1 and CP2 work
+
+The schema has ten tables and loads all supplied seed rows. The baseline was
+measured on 17 November 2026 using PostgreSQL 17.12 on a MacBook Pro (Apple M4,
+16 GB RAM). There are 30 queries, three runs each, and only key/unique indexes.
+The sum of average execution times is 2,244.873 ms. R19 is the slowest at
+1,969.629 ms. These are baseline numbers; optimization is still later work.
+
+- [Problem understanding](docs/01_problem_understanding.md)
+- [Schema design, data dictionary and checks](docs/02_schema_design.md)
+- [ER diagram](diagrams/er_diagram.png) and [Mermaid source](diagrams/er_diagram.mmd)
+- [All 30 baseline timings](docs/03_baseline_timings.md)
+- [Summary CSV](benchmarks/results/baseline/summary.csv) and [raw plans](benchmarks/results/baseline/)
+
+From the repository root, with PostgreSQL running and a new empty database:
+
+```sh
+unzip -n seed_data.zip
+createdb blinkit_t0133
+psql -X -v ON_ERROR_STOP=1 -d blinkit_t0133 -f sql/01_schema.sql
+psql -X -v ON_ERROR_STOP=1 -d blinkit_t0133 -f sql/02_load_data.sql
+psql -X -v ON_ERROR_STOP=1 -d blinkit_t0133 -f sql/03_integrity_checks.sql
+./benchmarks/run_benchmark.sh blinkit_t0133 baseline 3
+```
+
+On an Apple Silicon Mac with Homebrew PostgreSQL 17, add its tools to the
+current terminal first if `psql` is not found:
+
+```sh
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+```
+
+The seed CSVs stay local and ignored. The assigned workload and benchmark
+script are unchanged. The original course brief continues below.
+
 ---
 
 ## How this project works

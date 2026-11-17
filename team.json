@@ -6,6 +6,6 @@
     "github": "pjlgrg"
   },
   "members": [],
-  "postgres_version": "",
-  "laptop_used_for_benchmarks": ""
+  "postgres_version": "17.12",
+  "laptop_used_for_benchmarks": "MacBook Pro, Apple M4 (10 CPU cores), 16 GB RAM, macOS 27.3"
 }

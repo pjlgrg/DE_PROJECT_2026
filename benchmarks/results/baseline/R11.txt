@@ -1,0 +1,84 @@
+=== R11 run 1 ===
+Sort  (cost=4982.39..4982.55 rows=64 width=44) (actual time=5.445..5.883 rows=15 loops=1)
+  Sort Key: (round(avg((EXTRACT(epoch FROM (delivered_at - picked_up_at)) / '60'::numeric)), 1))
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=2247
+  ->  Finalize GroupAggregate  (cost=4973.71..4980.47 rows=64 width=44) (actual time=5.418..5.875 rows=15 loops=1)
+        Group Key: rider_id
+        Buffers: shared hit=2244
+        ->  Gather Merge  (cost=4973.71..4979.13 rows=38 width=44) (actual time=5.401..5.861 rows=29 loops=1)
+              Workers Planned: 1
+              Workers Launched: 1
+              Buffers: shared hit=2244
+              ->  Partial GroupAggregate  (cost=3973.70..3974.84 rows=38 width=44) (actual time=4.540..4.553 rows=14 loops=2)
+                    Group Key: rider_id
+                    Buffers: shared hit=2244
+                    ->  Sort  (cost=3973.70..3973.80 rows=38 width=20) (actual time=4.527..4.527 rows=34 loops=2)
+                          Sort Key: rider_id
+                          Sort Method: quicksort  Memory: 26kB
+                          Buffers: shared hit=2244
+                          Worker 0:  Sort Method: quicksort  Memory: 26kB
+                          ->  Parallel Seq Scan on orders  (cost=0.00..3972.71 rows=38 width=20) (actual time=4.242..4.509 rows=34 loops=2)
+                                Filter: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (store_id = 43) AND ((status)::text = 'DELIVERED'::text))
+                                Rows Removed by Filter: 74966
+                                Buffers: shared hit=2208
+Planning:
+  Buffers: shared hit=126
+Planning Time: 0.208 ms
+Execution Time: 5.908 ms
+=== R11 run 2 ===
+Sort  (cost=4982.39..4982.55 rows=64 width=44) (actual time=5.761..6.310 rows=15 loops=1)
+  Sort Key: (round(avg((EXTRACT(epoch FROM (delivered_at - picked_up_at)) / '60'::numeric)), 1))
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=2247
+  ->  Finalize GroupAggregate  (cost=4973.71..4980.47 rows=64 width=44) (actual time=5.721..6.302 rows=15 loops=1)
+        Group Key: rider_id
+        Buffers: shared hit=2244
+        ->  Gather Merge  (cost=4973.71..4979.13 rows=38 width=44) (actual time=5.714..6.290 rows=27 loops=1)
+              Workers Planned: 1
+              Workers Launched: 1
+              Buffers: shared hit=2244
+              ->  Partial GroupAggregate  (cost=3973.70..3974.84 rows=38 width=44) (actual time=4.825..4.841 rows=14 loops=2)
+                    Group Key: rider_id
+                    Buffers: shared hit=2244
+                    ->  Sort  (cost=3973.70..3973.80 rows=38 width=20) (actual time=4.814..4.817 rows=34 loops=2)
+                          Sort Key: rider_id
+                          Sort Method: quicksort  Memory: 26kB
+                          Buffers: shared hit=2244
+                          Worker 0:  Sort Method: quicksort  Memory: 26kB
+                          ->  Parallel Seq Scan on orders  (cost=0.00..3972.71 rows=38 width=20) (actual time=4.447..4.795 rows=34 loops=2)
+                                Filter: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (store_id = 43) AND ((status)::text = 'DELIVERED'::text))
+                                Rows Removed by Filter: 74966
+                                Buffers: shared hit=2208
+Planning:
+  Buffers: shared hit=126
+Planning Time: 0.202 ms
+Execution Time: 6.332 ms
+=== R11 run 3 ===
+Sort  (cost=4982.39..4982.55 rows=64 width=44) (actual time=5.630..6.029 rows=15 loops=1)
+  Sort Key: (round(avg((EXTRACT(epoch FROM (delivered_at - picked_up_at)) / '60'::numeric)), 1))
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=2247
+  ->  Finalize GroupAggregate  (cost=4973.71..4980.47 rows=64 width=44) (actual time=5.593..6.009 rows=15 loops=1)
+        Group Key: rider_id
+        Buffers: shared hit=2244
+        ->  Gather Merge  (cost=4973.71..4979.13 rows=38 width=44) (actual time=5.586..5.997 rows=28 loops=1)
+              Workers Planned: 1
+              Workers Launched: 1
+              Buffers: shared hit=2244
+              ->  Partial GroupAggregate  (cost=3973.70..3974.84 rows=38 width=44) (actual time=4.726..4.735 rows=14 loops=2)
+                    Group Key: rider_id
+                    Buffers: shared hit=2244
+                    ->  Sort  (cost=3973.70..3973.80 rows=38 width=20) (actual time=4.716..4.717 rows=34 loops=2)
+                          Sort Key: rider_id
+                          Sort Method: quicksort  Memory: 26kB
+                          Buffers: shared hit=2244
+                          Worker 0:  Sort Method: quicksort  Memory: 26kB
+                          ->  Parallel Seq Scan on orders  (cost=0.00..3972.71 rows=38 width=20) (actual time=4.418..4.699 rows=34 loops=2)
+                                Filter: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone) AND (store_id = 43) AND ((status)::text = 'DELIVERED'::text))
+                                Rows Removed by Filter: 74966
+                                Buffers: shared hit=2208
+Planning:
+  Buffers: shared hit=126
+Planning Time: 0.178 ms
+Execution Time: 6.050 ms
