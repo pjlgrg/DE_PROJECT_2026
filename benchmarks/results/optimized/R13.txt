@@ -1,0 +1,102 @@
+=== R13 run 1 ===
+Hash Anti Join  (cost=963.53..1015.11 rows=1250 width=28) (actual time=3.205..3.461 rows=1250 loops=1)
+  Hash Cond: (p.product_id = u.substitute_product_id)
+  Buffers: shared hit=208
+  CTE used_products
+    ->  HashAggregate  (cost=954.27..956.45 rows=218 width=4) (actual time=3.154..3.163 rows=219 loops=1)
+          Group Key: oi.substitute_product_id
+          Batches: 1  Memory Usage: 48kB
+          Buffers: shared hit=188
+          ->  Hash Join  (cost=476.98..952.26 rows=804 width=4) (actual time=1.314..3.074 rows=824 loops=1)
+                Hash Cond: (oi.order_id = o.order_id)
+                Buffers: shared hit=188
+                ->  Index Only Scan using order_items_substitute_order_idx on order_items oi  (cost=0.29..436.35 rows=14940 width=8) (actual time=0.008..0.792 rows=15000 loops=1)
+                      Heap Fetches: 0
+                      Buffers: shared hit=43
+                ->  Hash  (cost=375.82..375.82 rows=8070 width=4) (actual time=1.276..1.277 rows=8241 loops=1)
+                      Buckets: 16384 (originally 8192)  Batches: 1 (originally 1)  Memory Usage: 418kB
+                      Buffers: shared hit=145
+                      ->  Index Scan using orders_time_idx on orders o  (cost=0.42..375.82 rows=8070 width=4) (actual time=0.007..0.796 rows=8241 loops=1)
+                            Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                            Buffers: shared hit=145
+  ->  Seq Scan on products p  (cost=0.00..35.00 rows=1463 width=28) (actual time=0.003..0.170 rows=1463 loops=1)
+        Filter: is_active
+        Rows Removed by Filter: 37
+        Buffers: shared hit=20
+  ->  Hash  (cost=4.36..4.36 rows=218 width=4) (actual time=3.197..3.197 rows=219 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 16kB
+        Buffers: shared hit=188
+        ->  CTE Scan on used_products u  (cost=0.00..4.36 rows=218 width=4) (actual time=3.156..3.183 rows=219 loops=1)
+              Buffers: shared hit=188
+Planning:
+  Buffers: shared hit=412
+Planning Time: 0.864 ms
+Execution Time: 3.538 ms
+=== R13 run 2 ===
+Hash Anti Join  (cost=963.53..1015.11 rows=1250 width=28) (actual time=2.564..2.716 rows=1250 loops=1)
+  Hash Cond: (p.product_id = u.substitute_product_id)
+  Buffers: shared hit=208
+  CTE used_products
+    ->  HashAggregate  (cost=954.27..956.45 rows=218 width=4) (actual time=2.524..2.531 rows=219 loops=1)
+          Group Key: oi.substitute_product_id
+          Batches: 1  Memory Usage: 48kB
+          Buffers: shared hit=188
+          ->  Hash Join  (cost=476.98..952.26 rows=804 width=4) (actual time=1.404..2.471 rows=824 loops=1)
+                Hash Cond: (oi.order_id = o.order_id)
+                Buffers: shared hit=188
+                ->  Index Only Scan using order_items_substitute_order_idx on order_items oi  (cost=0.29..436.35 rows=14940 width=8) (actual time=0.008..0.531 rows=15000 loops=1)
+                      Heap Fetches: 0
+                      Buffers: shared hit=43
+                ->  Hash  (cost=375.82..375.82 rows=8070 width=4) (actual time=1.364..1.365 rows=8241 loops=1)
+                      Buckets: 16384 (originally 8192)  Batches: 1 (originally 1)  Memory Usage: 418kB
+                      Buffers: shared hit=145
+                      ->  Index Scan using orders_time_idx on orders o  (cost=0.42..375.82 rows=8070 width=4) (actual time=0.009..0.818 rows=8241 loops=1)
+                            Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                            Buffers: shared hit=145
+  ->  Seq Scan on products p  (cost=0.00..35.00 rows=1463 width=28) (actual time=0.006..0.091 rows=1463 loops=1)
+        Filter: is_active
+        Rows Removed by Filter: 37
+        Buffers: shared hit=20
+  ->  Hash  (cost=4.36..4.36 rows=218 width=4) (actual time=2.555..2.555 rows=219 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 16kB
+        Buffers: shared hit=188
+        ->  CTE Scan on used_products u  (cost=0.00..4.36 rows=218 width=4) (actual time=2.524..2.545 rows=219 loops=1)
+              Buffers: shared hit=188
+Planning:
+  Buffers: shared hit=412
+Planning Time: 2.819 ms
+Execution Time: 2.805 ms
+=== R13 run 3 ===
+Hash Anti Join  (cost=963.53..1015.11 rows=1250 width=28) (actual time=2.273..2.440 rows=1250 loops=1)
+  Hash Cond: (p.product_id = u.substitute_product_id)
+  Buffers: shared hit=208
+  CTE used_products
+    ->  HashAggregate  (cost=954.27..956.45 rows=218 width=4) (actual time=2.177..2.185 rows=219 loops=1)
+          Group Key: oi.substitute_product_id
+          Batches: 1  Memory Usage: 48kB
+          Buffers: shared hit=188
+          ->  Hash Join  (cost=476.98..952.26 rows=804 width=4) (actual time=1.024..2.127 rows=824 loops=1)
+                Hash Cond: (oi.order_id = o.order_id)
+                Buffers: shared hit=188
+                ->  Index Only Scan using order_items_substitute_order_idx on order_items oi  (cost=0.29..436.35 rows=14940 width=8) (actual time=0.007..0.550 rows=15000 loops=1)
+                      Heap Fetches: 0
+                      Buffers: shared hit=43
+                ->  Hash  (cost=375.82..375.82 rows=8070 width=4) (actual time=0.999..0.999 rows=8241 loops=1)
+                      Buckets: 16384 (originally 8192)  Batches: 1 (originally 1)  Memory Usage: 418kB
+                      Buffers: shared hit=145
+                      ->  Index Scan using orders_time_idx on orders o  (cost=0.42..375.82 rows=8070 width=4) (actual time=0.007..0.646 rows=8241 loops=1)
+                            Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                            Buffers: shared hit=145
+  ->  Seq Scan on products p  (cost=0.00..35.00 rows=1463 width=28) (actual time=0.004..0.095 rows=1463 loops=1)
+        Filter: is_active
+        Rows Removed by Filter: 37
+        Buffers: shared hit=20
+  ->  Hash  (cost=4.36..4.36 rows=218 width=4) (actual time=2.207..2.208 rows=219 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 16kB
+        Buffers: shared hit=188
+        ->  CTE Scan on used_products u  (cost=0.00..4.36 rows=218 width=4) (actual time=2.178..2.198 rows=219 loops=1)
+              Buffers: shared hit=188
+Planning:
+  Buffers: shared hit=412
+Planning Time: 0.809 ms
+Execution Time: 2.504 ms

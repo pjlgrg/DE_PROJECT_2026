@@ -1,0 +1,27 @@
+=== R22 run 1 ===
+Limit  (cost=4078.42..4079.44 rows=25 width=35) (actual time=15.393..15.397 rows=25 loops=1)
+  Buffers: shared hit=1853 read=137
+  ->  Index Scan Backward using orders_time_idx on orders  (cost=0.42..6117.42 rows=150000 width=35) (actual time=0.008..13.636 rows=100025 loops=1)
+        Buffers: shared hit=1853 read=137
+Planning:
+  Buffers: shared hit=203
+Planning Time: 0.388 ms
+Execution Time: 15.409 ms
+=== R22 run 2 ===
+Limit  (cost=4078.42..4079.44 rows=25 width=35) (actual time=11.634..11.638 rows=25 loops=1)
+  Buffers: shared hit=1990
+  ->  Index Scan Backward using orders_time_idx on orders  (cost=0.42..6117.42 rows=150000 width=35) (actual time=0.008..9.883 rows=100025 loops=1)
+        Buffers: shared hit=1990
+Planning:
+  Buffers: shared hit=203
+Planning Time: 0.352 ms
+Execution Time: 11.649 ms
+=== R22 run 3 ===
+Limit  (cost=4078.42..4079.44 rows=25 width=35) (actual time=11.333..11.337 rows=25 loops=1)
+  Buffers: shared hit=1990
+  ->  Index Scan Backward using orders_time_idx on orders  (cost=0.42..6117.42 rows=150000 width=35) (actual time=0.008..9.571 rows=100025 loops=1)
+        Buffers: shared hit=1990
+Planning:
+  Buffers: shared hit=203
+Planning Time: 0.400 ms
+Execution Time: 11.350 ms

@@ -1,0 +1,24 @@
+=== R07 run 1 ===
+Index Scan using orders_open_store_time_idx on orders  (cost=0.14..8.16 rows=1 width=26) (actual time=0.190..0.205 rows=4 loops=1)
+  Index Cond: (store_id = 43)
+  Buffers: shared hit=6 read=1 dirtied=1
+Planning:
+  Buffers: shared hit=251
+Planning Time: 0.396 ms
+Execution Time: 0.213 ms
+=== R07 run 2 ===
+Index Scan using orders_open_store_time_idx on orders  (cost=0.14..8.16 rows=1 width=26) (actual time=0.007..0.009 rows=4 loops=1)
+  Index Cond: (store_id = 43)
+  Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=251
+Planning Time: 0.447 ms
+Execution Time: 0.019 ms
+=== R07 run 3 ===
+Index Scan using orders_open_store_time_idx on orders  (cost=0.14..8.16 rows=1 width=26) (actual time=0.013..0.017 rows=4 loops=1)
+  Index Cond: (store_id = 43)
+  Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=251
+Planning Time: 0.955 ms
+Execution Time: 0.044 ms

@@ -1,0 +1,90 @@
+=== R25 run 1 ===
+Limit  (cost=3770.95..3771.00 rows=20 width=44) (actual time=16.529..16.531 rows=20 loops=1)
+  Buffers: shared hit=862 read=418
+  ->  Sort  (cost=3770.95..3790.08 rows=7653 width=44) (actual time=16.528..16.529 rows=20 loops=1)
+        Sort Key: (count(*)) DESC, (sum(o.total_amount)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=862 read=418
+        ->  HashAggregate  (cost=3471.64..3567.30 rows=7653 width=44) (actual time=15.803..16.323 rows=4423 loops=1)
+              Group Key: o.customer_id
+              Batches: 1  Memory Usage: 2193kB
+              Buffers: shared hit=856 read=418
+              ->  Hash Join  (cost=998.28..3414.24 rows=7653 width=9) (actual time=6.557..14.525 rows=7490 loops=1)
+                    Hash Cond: (o.customer_id = c.customer_id)
+                    Buffers: shared hit=856 read=418
+                    ->  Index Scan using orders_time_idx on orders o  (cost=0.42..2290.60 rows=47912 width=9) (actual time=0.008..5.492 rows=47725 loops=1)
+                          Index Cond: (placed_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                          Filter: ((status)::text = 'DELIVERED'::text)
+                          Rows Removed by Filter: 2000
+                          Buffers: shared hit=856
+                    ->  Hash  (cost=918.00..918.00 rows=6389 width=4) (actual time=6.532..6.532 rows=6400 loops=1)
+                          Buckets: 8192  Batches: 1  Memory Usage: 289kB
+                          Buffers: shared read=418
+                          ->  Seq Scan on customers c  (cost=0.00..918.00 rows=6389 width=4) (actual time=0.174..6.212 rows=6400 loops=1)
+                                Filter: (city_id = 2)
+                                Rows Removed by Filter: 33600
+                                Buffers: shared read=418
+Planning:
+  Buffers: shared hit=343 read=10
+Planning Time: 5.654 ms
+Execution Time: 16.597 ms
+=== R25 run 2 ===
+Limit  (cost=3770.95..3771.00 rows=20 width=44) (actual time=12.415..12.417 rows=20 loops=1)
+  Buffers: shared hit=1280
+  ->  Sort  (cost=3770.95..3790.08 rows=7653 width=44) (actual time=12.414..12.416 rows=20 loops=1)
+        Sort Key: (count(*)) DESC, (sum(o.total_amount)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=1280
+        ->  HashAggregate  (cost=3471.64..3567.30 rows=7653 width=44) (actual time=11.663..12.203 rows=4423 loops=1)
+              Group Key: o.customer_id
+              Batches: 1  Memory Usage: 2193kB
+              Buffers: shared hit=1274
+              ->  Hash Join  (cost=998.28..3414.24 rows=7653 width=9) (actual time=2.275..10.382 rows=7490 loops=1)
+                    Hash Cond: (o.customer_id = c.customer_id)
+                    Buffers: shared hit=1274
+                    ->  Index Scan using orders_time_idx on orders o  (cost=0.42..2290.60 rows=47912 width=9) (actual time=0.009..5.590 rows=47725 loops=1)
+                          Index Cond: (placed_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                          Filter: ((status)::text = 'DELIVERED'::text)
+                          Rows Removed by Filter: 2000
+                          Buffers: shared hit=856
+                    ->  Hash  (cost=918.00..918.00 rows=6389 width=4) (actual time=2.246..2.246 rows=6400 loops=1)
+                          Buckets: 8192  Batches: 1  Memory Usage: 289kB
+                          Buffers: shared hit=418
+                          ->  Seq Scan on customers c  (cost=0.00..918.00 rows=6389 width=4) (actual time=0.005..1.986 rows=6400 loops=1)
+                                Filter: (city_id = 2)
+                                Rows Removed by Filter: 33600
+                                Buffers: shared hit=418
+Planning:
+  Buffers: shared hit=353
+Planning Time: 1.157 ms
+Execution Time: 12.519 ms
+=== R25 run 3 ===
+Limit  (cost=3770.95..3771.00 rows=20 width=44) (actual time=11.708..11.710 rows=20 loops=1)
+  Buffers: shared hit=1280
+  ->  Sort  (cost=3770.95..3790.08 rows=7653 width=44) (actual time=11.707..11.708 rows=20 loops=1)
+        Sort Key: (count(*)) DESC, (sum(o.total_amount)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=1280
+        ->  HashAggregate  (cost=3471.64..3567.30 rows=7653 width=44) (actual time=10.901..11.484 rows=4423 loops=1)
+              Group Key: o.customer_id
+              Batches: 1  Memory Usage: 2193kB
+              Buffers: shared hit=1274
+              ->  Hash Join  (cost=998.28..3414.24 rows=7653 width=9) (actual time=2.185..9.804 rows=7490 loops=1)
+                    Hash Cond: (o.customer_id = c.customer_id)
+                    Buffers: shared hit=1274
+                    ->  Index Scan using orders_time_idx on orders o  (cost=0.42..2290.60 rows=47912 width=9) (actual time=0.007..5.204 rows=47725 loops=1)
+                          Index Cond: (placed_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                          Filter: ((status)::text = 'DELIVERED'::text)
+                          Rows Removed by Filter: 2000
+                          Buffers: shared hit=856
+                    ->  Hash  (cost=918.00..918.00 rows=6389 width=4) (actual time=2.163..2.163 rows=6400 loops=1)
+                          Buckets: 8192  Batches: 1  Memory Usage: 289kB
+                          Buffers: shared hit=418
+                          ->  Seq Scan on customers c  (cost=0.00..918.00 rows=6389 width=4) (actual time=0.003..1.876 rows=6400 loops=1)
+                                Filter: (city_id = 2)
+                                Rows Removed by Filter: 33600
+                                Buffers: shared hit=418
+Planning:
+  Buffers: shared hit=353
+Planning Time: 0.609 ms
+Execution Time: 11.771 ms

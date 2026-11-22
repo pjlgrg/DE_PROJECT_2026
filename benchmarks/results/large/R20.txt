@@ -1,0 +1,57 @@
+=== R20 run 1 ===
+WindowAgg  (cost=24400.83..30232.91 rows=156304 width=68) (actual time=37.952..48.611 rows=30 loops=1)
+  Buffers: shared hit=2852, temp read=365 written=367
+  ->  GroupAggregate  (cost=24371.51..27888.35 rows=156304 width=36) (actual time=37.561..48.571 rows=30 loops=1)
+        Group Key: ((orders.placed_at)::date)
+        Buffers: shared hit=2852, temp read=365 written=367
+        ->  Sort  (cost=24371.51..24762.27 rows=156304 width=9) (actual time=37.133..42.053 rows=156013 loops=1)
+              Sort Key: ((orders.placed_at)::date)
+              Sort Method: external merge  Disk: 2920kB
+              Buffers: shared hit=2852, temp read=365 written=367
+              ->  Index Scan using orders_time_idx on orders  (cost=0.43..8213.17 rows=156304 width=9) (actual time=0.012..27.643 rows=156013 loops=1)
+                    Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'DELIVERED'::text)
+                    Rows Removed by Filter: 8822
+                    Buffers: shared hit=2849
+Planning:
+  Buffers: shared hit=250 read=2
+Planning Time: 0.552 ms
+Execution Time: 49.288 ms
+=== R20 run 2 ===
+WindowAgg  (cost=24400.83..30232.91 rows=156304 width=68) (actual time=36.891..48.295 rows=30 loops=1)
+  Buffers: shared hit=2852, temp read=365 written=367
+  ->  GroupAggregate  (cost=24371.51..27888.35 rows=156304 width=36) (actual time=36.479..48.261 rows=30 loops=1)
+        Group Key: ((orders.placed_at)::date)
+        Buffers: shared hit=2852, temp read=365 written=367
+        ->  Sort  (cost=24371.51..24762.27 rows=156304 width=9) (actual time=36.082..41.277 rows=156013 loops=1)
+              Sort Key: ((orders.placed_at)::date)
+              Sort Method: external merge  Disk: 2920kB
+              Buffers: shared hit=2852, temp read=365 written=367
+              ->  Index Scan using orders_time_idx on orders  (cost=0.43..8213.17 rows=156304 width=9) (actual time=0.017..26.716 rows=156013 loops=1)
+                    Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'DELIVERED'::text)
+                    Rows Removed by Filter: 8822
+                    Buffers: shared hit=2849
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.651 ms
+Execution Time: 49.002 ms
+=== R20 run 3 ===
+WindowAgg  (cost=24400.83..30232.91 rows=156304 width=68) (actual time=37.573..48.548 rows=30 loops=1)
+  Buffers: shared hit=2852, temp read=365 written=367
+  ->  GroupAggregate  (cost=24371.51..27888.35 rows=156304 width=36) (actual time=37.184..48.508 rows=30 loops=1)
+        Group Key: ((orders.placed_at)::date)
+        Buffers: shared hit=2852, temp read=365 written=367
+        ->  Sort  (cost=24371.51..24762.27 rows=156304 width=9) (actual time=36.788..41.795 rows=156013 loops=1)
+              Sort Key: ((orders.placed_at)::date)
+              Sort Method: external merge  Disk: 2920kB
+              Buffers: shared hit=2852, temp read=365 written=367
+              ->  Index Scan using orders_time_idx on orders  (cost=0.43..8213.17 rows=156304 width=9) (actual time=0.012..26.786 rows=156013 loops=1)
+                    Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'DELIVERED'::text)
+                    Rows Removed by Filter: 8822
+                    Buffers: shared hit=2849
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.557 ms
+Execution Time: 49.138 ms

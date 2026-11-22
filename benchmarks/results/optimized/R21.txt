@@ -1,0 +1,75 @@
+=== R21 run 1 ===
+Sort  (cost=39.11..39.14 rows=11 width=16) (actual time=1.095..1.096 rows=8 loops=1)
+  Sort Key: r.rider_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=11 read=16
+  ->  Hash Right Anti Join  (cost=22.15..38.92 rows=11 width=16) (actual time=1.080..1.083 rows=8 loops=1)
+        Hash Cond: (o.rider_id = r.rider_id)
+        Buffers: shared hit=8 read=16
+        ->  Index Scan using orders_time_idx on orders o  (cost=0.42..16.08 rows=266 width=4) (actual time=0.008..0.025 rows=274 loops=1)
+              Index Cond: (placed_at >= '2026-06-30 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=8
+        ->  Hash  (cost=21.56..21.56 rows=13 width=16) (actual time=1.040..1.041 rows=14 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared read=16
+              ->  Bitmap Heap Scan on riders r  (cost=4.38..21.56 rows=13 width=16) (actual time=0.244..1.035 rows=14 loops=1)
+                    Recheck Cond: ((store_id = 43) AND ((status)::text = 'ACTIVE'::text))
+                    Heap Blocks: exact=14
+                    Buffers: shared read=16
+                    ->  Bitmap Index Scan on riders_active_store_id_idx  (cost=0.00..4.38 rows=13 width=0) (actual time=0.134..0.134 rows=14 loops=1)
+                          Index Cond: (store_id = 43)
+                          Buffers: shared read=2
+Planning:
+  Buffers: shared hit=302 read=9
+Planning Time: 1.794 ms
+Execution Time: 1.117 ms
+=== R21 run 2 ===
+Sort  (cost=39.11..39.14 rows=11 width=16) (actual time=0.076..0.076 rows=8 loops=1)
+  Sort Key: r.rider_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=27
+  ->  Hash Right Anti Join  (cost=22.15..38.92 rows=11 width=16) (actual time=0.063..0.065 rows=8 loops=1)
+        Hash Cond: (o.rider_id = r.rider_id)
+        Buffers: shared hit=24
+        ->  Index Scan using orders_time_idx on orders o  (cost=0.42..16.08 rows=266 width=4) (actual time=0.005..0.020 rows=274 loops=1)
+              Index Cond: (placed_at >= '2026-06-30 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=8
+        ->  Hash  (cost=21.56..21.56 rows=13 width=16) (actual time=0.027..0.028 rows=14 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=16
+              ->  Bitmap Heap Scan on riders r  (cost=4.38..21.56 rows=13 width=16) (actual time=0.008..0.025 rows=14 loops=1)
+                    Recheck Cond: ((store_id = 43) AND ((status)::text = 'ACTIVE'::text))
+                    Heap Blocks: exact=14
+                    Buffers: shared hit=16
+                    ->  Bitmap Index Scan on riders_active_store_id_idx  (cost=0.00..4.38 rows=13 width=0) (actual time=0.005..0.005 rows=14 loops=1)
+                          Index Cond: (store_id = 43)
+                          Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=311
+Planning Time: 0.609 ms
+Execution Time: 0.098 ms
+=== R21 run 3 ===
+Sort  (cost=39.11..39.14 rows=11 width=16) (actual time=0.069..0.070 rows=8 loops=1)
+  Sort Key: r.rider_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=27
+  ->  Hash Right Anti Join  (cost=22.15..38.92 rows=11 width=16) (actual time=0.058..0.061 rows=8 loops=1)
+        Hash Cond: (o.rider_id = r.rider_id)
+        Buffers: shared hit=24
+        ->  Index Scan using orders_time_idx on orders o  (cost=0.42..16.08 rows=266 width=4) (actual time=0.005..0.020 rows=274 loops=1)
+              Index Cond: (placed_at >= '2026-06-30 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=8
+        ->  Hash  (cost=21.56..21.56 rows=13 width=16) (actual time=0.025..0.025 rows=14 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=16
+              ->  Bitmap Heap Scan on riders r  (cost=4.38..21.56 rows=13 width=16) (actual time=0.008..0.022 rows=14 loops=1)
+                    Recheck Cond: ((store_id = 43) AND ((status)::text = 'ACTIVE'::text))
+                    Heap Blocks: exact=14
+                    Buffers: shared hit=16
+                    ->  Bitmap Index Scan on riders_active_store_id_idx  (cost=0.00..4.38 rows=13 width=0) (actual time=0.004..0.004 rows=14 loops=1)
+                          Index Cond: (store_id = 43)
+                          Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=311
+Planning Time: 0.639 ms
+Execution Time: 0.090 ms

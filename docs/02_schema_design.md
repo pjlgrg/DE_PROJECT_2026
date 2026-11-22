@@ -169,8 +169,7 @@ The store-product and order-product links turn many-to-many relationships
 into two one-to-many relationships.
 
 The [PNG diagram](../diagrams/er_diagram.png) includes the columns, keys and
-cardinalities. Its [Mermaid source](../diagrams/er_diagram.mmd) and
-[Graphviz source](../diagrams/er_diagram.dot) are also included.
+cardinalities. We kept the [Mermaid source](../diagrams/er_diagram.mmd) with it.
 
 ## CHECK rules
 

@@ -1,0 +1,99 @@
+=== R02 run 1 ===
+Sort  (cost=3127.07..3127.34 rows=110 width=37) (actual time=3.297..3.299 rows=75 loops=1)
+  Sort Key: si.selling_price
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=309 read=412
+  ->  Hash Join  (cost=510.74..3123.34 rows=110 width=37) (actual time=3.055..3.267 rows=75 loops=1)
+        Hash Cond: (si.product_id = p.product_id)
+        Buffers: shared hit=306 read=412
+        ->  Index Scan using store_inventory_pkey on store_inventory si  (cost=0.43..2606.97 rows=1322 width=13) (actual time=0.014..0.176 rows=975 loops=1)
+              Index Cond: (store_id = 43)
+              Filter: (quantity_on_hand > 0)
+              Rows Removed by Filter: 75
+              Buffers: shared hit=305 read=18
+        ->  Hash  (cost=479.06..479.06 rows=2500 width=28) (actual time=3.027..3.027 rows=2500 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 166kB
+              Buffers: shared hit=1 read=394
+              ->  Nested Loop  (cost=31.66..479.06 rows=2500 width=28) (actual time=0.488..2.880 rows=2500 loops=1)
+                    Buffers: shared hit=1 read=394
+                    ->  Seq Scan on categories c  (cost=0.00..1.15 rows=1 width=4) (actual time=0.003..0.004 rows=1 loops=1)
+                          Filter: ((category_name)::text = 'Dairy'::text)
+                          Rows Removed by Filter: 11
+                          Buffers: shared hit=1
+                    ->  Bitmap Heap Scan on products p  (cost=31.66..452.91 rows=2500 width=32) (actual time=0.484..2.774 rows=2500 loops=1)
+                          Recheck Cond: (category_id = c.category_id)
+                          Heap Blocks: exact=390
+                          Buffers: shared read=394
+                          ->  Bitmap Index Scan on products_category_idx  (cost=0.00..31.04 rows=2500 width=0) (actual time=0.365..0.365 rows=2500 loops=1)
+                                Index Cond: (category_id = c.category_id)
+                                Buffers: shared read=4
+Planning:
+  Buffers: shared hit=286 read=20
+Planning Time: 1.930 ms
+Execution Time: 3.330 ms
+=== R02 run 2 ===
+Sort  (cost=3127.07..3127.34 rows=110 width=37) (actual time=0.904..0.906 rows=75 loops=1)
+  Sort Key: si.selling_price
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=721
+  ->  Hash Join  (cost=510.74..3123.34 rows=110 width=37) (actual time=0.708..0.884 rows=75 loops=1)
+        Hash Cond: (si.product_id = p.product_id)
+        Buffers: shared hit=718
+        ->  Index Scan using store_inventory_pkey on store_inventory si  (cost=0.43..2606.97 rows=1322 width=13) (actual time=0.006..0.144 rows=975 loops=1)
+              Index Cond: (store_id = 43)
+              Filter: (quantity_on_hand > 0)
+              Rows Removed by Filter: 75
+              Buffers: shared hit=323
+        ->  Hash  (cost=479.06..479.06 rows=2500 width=28) (actual time=0.691..0.691 rows=2500 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 166kB
+              Buffers: shared hit=395
+              ->  Nested Loop  (cost=31.66..479.06 rows=2500 width=28) (actual time=0.060..0.558 rows=2500 loops=1)
+                    Buffers: shared hit=395
+                    ->  Seq Scan on categories c  (cost=0.00..1.15 rows=1 width=4) (actual time=0.002..0.003 rows=1 loops=1)
+                          Filter: ((category_name)::text = 'Dairy'::text)
+                          Rows Removed by Filter: 11
+                          Buffers: shared hit=1
+                    ->  Bitmap Heap Scan on products p  (cost=31.66..452.91 rows=2500 width=32) (actual time=0.057..0.450 rows=2500 loops=1)
+                          Recheck Cond: (category_id = c.category_id)
+                          Heap Blocks: exact=390
+                          Buffers: shared hit=394
+                          ->  Bitmap Index Scan on products_category_idx  (cost=0.00..31.04 rows=2500 width=0) (actual time=0.038..0.038 rows=2500 loops=1)
+                                Index Cond: (category_id = c.category_id)
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=306
+Planning Time: 0.467 ms
+Execution Time: 0.932 ms
+=== R02 run 3 ===
+Sort  (cost=3127.07..3127.34 rows=110 width=37) (actual time=0.952..0.953 rows=75 loops=1)
+  Sort Key: si.selling_price
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=721
+  ->  Hash Join  (cost=510.74..3123.34 rows=110 width=37) (actual time=0.746..0.932 rows=75 loops=1)
+        Hash Cond: (si.product_id = p.product_id)
+        Buffers: shared hit=718
+        ->  Index Scan using store_inventory_pkey on store_inventory si  (cost=0.43..2606.97 rows=1322 width=13) (actual time=0.006..0.146 rows=975 loops=1)
+              Index Cond: (store_id = 43)
+              Filter: (quantity_on_hand > 0)
+              Rows Removed by Filter: 75
+              Buffers: shared hit=323
+        ->  Hash  (cost=479.06..479.06 rows=2500 width=28) (actual time=0.729..0.729 rows=2500 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 166kB
+              Buffers: shared hit=395
+              ->  Nested Loop  (cost=31.66..479.06 rows=2500 width=28) (actual time=0.080..0.594 rows=2500 loops=1)
+                    Buffers: shared hit=395
+                    ->  Seq Scan on categories c  (cost=0.00..1.15 rows=1 width=4) (actual time=0.002..0.003 rows=1 loops=1)
+                          Filter: ((category_name)::text = 'Dairy'::text)
+                          Rows Removed by Filter: 11
+                          Buffers: shared hit=1
+                    ->  Bitmap Heap Scan on products p  (cost=31.66..452.91 rows=2500 width=32) (actual time=0.077..0.484 rows=2500 loops=1)
+                          Recheck Cond: (category_id = c.category_id)
+                          Heap Blocks: exact=390
+                          Buffers: shared hit=394
+                          ->  Bitmap Index Scan on products_category_idx  (cost=0.00..31.04 rows=2500 width=0) (actual time=0.059..0.059 rows=2500 loops=1)
+                                Index Cond: (category_id = c.category_id)
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=306
+Planning Time: 0.442 ms
+Execution Time: 0.979 ms

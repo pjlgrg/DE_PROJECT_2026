@@ -1,0 +1,69 @@
+=== R24 run 1 ===
+Sort  (cost=34.48..34.50 rows=8 width=20) (actual time=0.413..0.413 rows=7 loops=1)
+  Sort Key: (sum(quantity)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=12 read=3
+  ->  GroupAggregate  (cost=34.20..34.36 rows=8 width=20) (actual time=0.404..0.405 rows=7 loops=1)
+        Group Key: product_id
+        Buffers: shared hit=9 read=3
+        ->  Sort  (cost=34.20..34.22 rows=8 width=8) (actual time=0.399..0.399 rows=7 loops=1)
+              Sort Key: product_id
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=9 read=3
+              ->  Bitmap Heap Scan on inventory_movements m  (cost=4.50..34.08 rows=8 width=8) (actual time=0.386..0.391 rows=7 loops=1)
+                    Recheck Cond: ((store_id = 43) AND (moved_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone) AND ((movement_type)::text = 'RESTOCK'::text))
+                    Heap Blocks: exact=6
+                    Buffers: shared hit=6 read=3
+                    ->  Bitmap Index Scan on movements_restock_store_time_idx  (cost=0.00..4.50 rows=8 width=0) (actual time=0.380..0.380 rows=7 loops=1)
+                          Index Cond: ((store_id = 43) AND (moved_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone))
+                          Buffers: shared read=3
+Planning:
+  Buffers: shared hit=135
+Planning Time: 0.248 ms
+Execution Time: 0.440 ms
+=== R24 run 2 ===
+Sort  (cost=34.48..34.50 rows=8 width=20) (actual time=0.037..0.038 rows=7 loops=1)
+  Sort Key: (sum(quantity)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=15
+  ->  GroupAggregate  (cost=34.20..34.36 rows=8 width=20) (actual time=0.029..0.031 rows=7 loops=1)
+        Group Key: product_id
+        Buffers: shared hit=12
+        ->  Sort  (cost=34.20..34.22 rows=8 width=8) (actual time=0.025..0.025 rows=7 loops=1)
+              Sort Key: product_id
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=12
+              ->  Bitmap Heap Scan on inventory_movements m  (cost=4.50..34.08 rows=8 width=8) (actual time=0.012..0.017 rows=7 loops=1)
+                    Recheck Cond: ((store_id = 43) AND (moved_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone) AND ((movement_type)::text = 'RESTOCK'::text))
+                    Heap Blocks: exact=6
+                    Buffers: shared hit=9
+                    ->  Bitmap Index Scan on movements_restock_store_time_idx  (cost=0.00..4.50 rows=8 width=0) (actual time=0.007..0.007 rows=7 loops=1)
+                          Index Cond: ((store_id = 43) AND (moved_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone))
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=135
+Planning Time: 0.224 ms
+Execution Time: 0.064 ms
+=== R24 run 3 ===
+Sort  (cost=34.48..34.50 rows=8 width=20) (actual time=0.059..0.059 rows=7 loops=1)
+  Sort Key: (sum(quantity)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=15
+  ->  GroupAggregate  (cost=34.20..34.36 rows=8 width=20) (actual time=0.047..0.048 rows=7 loops=1)
+        Group Key: product_id
+        Buffers: shared hit=12
+        ->  Sort  (cost=34.20..34.22 rows=8 width=8) (actual time=0.041..0.041 rows=7 loops=1)
+              Sort Key: product_id
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=12
+              ->  Bitmap Heap Scan on inventory_movements m  (cost=4.50..34.08 rows=8 width=8) (actual time=0.020..0.028 rows=7 loops=1)
+                    Recheck Cond: ((store_id = 43) AND (moved_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone) AND ((movement_type)::text = 'RESTOCK'::text))
+                    Heap Blocks: exact=6
+                    Buffers: shared hit=9
+                    ->  Bitmap Index Scan on movements_restock_store_time_idx  (cost=0.00..4.50 rows=8 width=0) (actual time=0.012..0.013 rows=7 loops=1)
+                          Index Cond: ((store_id = 43) AND (moved_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone))
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=135
+Planning Time: 0.325 ms
+Execution Time: 0.094 ms

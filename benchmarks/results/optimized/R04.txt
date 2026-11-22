@@ -1,0 +1,54 @@
+=== R04 run 1 ===
+Sort  (cost=161.87..161.90 rows=13 width=20) (actual time=0.087..0.087 rows=15 loops=1)
+  Sort Key: si.quantity_on_hand DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=58
+  ->  Nested Loop  (cost=0.29..161.63 rows=13 width=20) (actual time=0.011..0.075 rows=15 loops=1)
+        Buffers: shared hit=55
+        ->  Seq Scan on dark_stores s  (cost=0.00..3.50 rows=19 width=15) (actual time=0.006..0.010 rows=19 loops=1)
+              Filter: (city_id = 1)
+              Rows Removed by Filter: 101
+              Buffers: shared hit=2
+        ->  Index Scan using store_inventory_pkey on store_inventory si  (cost=0.29..8.31 rows=1 width=13) (actual time=0.003..0.003 rows=1 loops=19)
+              Index Cond: ((store_id = s.store_id) AND (product_id = 1236))
+              Buffers: shared hit=53
+Planning:
+  Buffers: shared hit=162 read=1
+Planning Time: 0.852 ms
+Execution Time: 0.123 ms
+=== R04 run 2 ===
+Sort  (cost=161.87..161.90 rows=13 width=20) (actual time=0.111..0.112 rows=15 loops=1)
+  Sort Key: si.quantity_on_hand DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=58
+  ->  Nested Loop  (cost=0.29..161.63 rows=13 width=20) (actual time=0.013..0.099 rows=15 loops=1)
+        Buffers: shared hit=55
+        ->  Seq Scan on dark_stores s  (cost=0.00..3.50 rows=19 width=15) (actual time=0.007..0.012 rows=19 loops=1)
+              Filter: (city_id = 1)
+              Rows Removed by Filter: 101
+              Buffers: shared hit=2
+        ->  Index Scan using store_inventory_pkey on store_inventory si  (cost=0.29..8.31 rows=1 width=13) (actual time=0.004..0.004 rows=1 loops=19)
+              Index Cond: ((store_id = s.store_id) AND (product_id = 1236))
+              Buffers: shared hit=53
+Planning:
+  Buffers: shared hit=163
+Planning Time: 0.453 ms
+Execution Time: 0.149 ms
+=== R04 run 3 ===
+Sort  (cost=161.87..161.90 rows=13 width=20) (actual time=0.080..0.081 rows=15 loops=1)
+  Sort Key: si.quantity_on_hand DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=58
+  ->  Nested Loop  (cost=0.29..161.63 rows=13 width=20) (actual time=0.010..0.071 rows=15 loops=1)
+        Buffers: shared hit=55
+        ->  Seq Scan on dark_stores s  (cost=0.00..3.50 rows=19 width=15) (actual time=0.005..0.009 rows=19 loops=1)
+              Filter: (city_id = 1)
+              Rows Removed by Filter: 101
+              Buffers: shared hit=2
+        ->  Index Scan using store_inventory_pkey on store_inventory si  (cost=0.29..8.31 rows=1 width=13) (actual time=0.003..0.003 rows=1 loops=19)
+              Index Cond: ((store_id = s.store_id) AND (product_id = 1236))
+              Buffers: shared hit=53
+Planning:
+  Buffers: shared hit=163
+Planning Time: 0.336 ms
+Execution Time: 0.108 ms

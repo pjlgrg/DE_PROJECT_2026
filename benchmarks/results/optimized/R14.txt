@@ -1,0 +1,117 @@
+=== R14 run 1 ===
+Sort  (cost=9556.09..9556.39 rows=118 width=44) (actual time=22.561..23.330 rows=118 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (oi.quantity_delivered < oi.quantity_ordered)))::numeric) / (count(*))::numeric), 2)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=4796
+  ->  Finalize GroupAggregate  (cost=9520.07..9552.03 rows=118 width=44) (actual time=22.482..23.304 rows=118 loops=1)
+        Group Key: o.store_id
+        Buffers: shared hit=4793
+        ->  Gather Merge  (cost=9520.07..9547.61 rows=236 width=20) (actual time=22.463..23.251 rows=354 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=4793
+              ->  Sort  (cost=8520.05..8520.34 rows=118 width=20) (actual time=19.702..19.706 rows=118 loops=3)
+                    Sort Key: o.store_id
+                    Sort Method: quicksort  Memory: 29kB
+                    Buffers: shared hit=4793
+                    Worker 0:  Sort Method: quicksort  Memory: 29kB
+                    Worker 1:  Sort Method: quicksort  Memory: 29kB
+                    ->  Partial HashAggregate  (cost=8514.81..8515.99 rows=118 width=20) (actual time=19.673..19.681 rows=118 loops=3)
+                          Group Key: o.store_id
+                          Batches: 1  Memory Usage: 48kB
+                          Buffers: shared hit=4779
+                          Worker 0:  Batches: 1  Memory Usage: 48kB
+                          Worker 1:  Batches: 1  Memory Usage: 48kB
+                          ->  Hash Join  (cost=476.69..8363.50 rows=15131 width=12) (actual time=17.493..18.909 rows=12362 loops=3)
+                                Hash Cond: (oi.order_id = o.order_id)
+                                Buffers: shared hit=4779
+                                ->  Parallel Seq Scan on order_items oi  (cost=0.00..7148.50 rows=281250 width=12) (actual time=0.002..7.515 rows=225000 loops=3)
+                                      Buffers: shared hit=4336
+                                ->  Hash  (cost=375.82..375.82 rows=8070 width=8) (actual time=1.369..1.370 rows=8241 loops=3)
+                                      Buckets: 16384 (originally 8192)  Batches: 1 (originally 1)  Memory Usage: 450kB
+                                      Buffers: shared hit=437
+                                      ->  Index Scan using orders_time_idx on orders o  (cost=0.42..375.82 rows=8070 width=8) (actual time=0.010..0.839 rows=8241 loops=3)
+                                            Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                            Buffers: shared hit=437
+Planning:
+  Buffers: shared hit=336
+Planning Time: 0.618 ms
+Execution Time: 23.370 ms
+=== R14 run 2 ===
+Sort  (cost=9556.09..9556.39 rows=118 width=44) (actual time=21.236..22.130 rows=118 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (oi.quantity_delivered < oi.quantity_ordered)))::numeric) / (count(*))::numeric), 2)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=4796
+  ->  Finalize GroupAggregate  (cost=9520.07..9552.03 rows=118 width=44) (actual time=21.134..22.110 rows=118 loops=1)
+        Group Key: o.store_id
+        Buffers: shared hit=4793
+        ->  Gather Merge  (cost=9520.07..9547.61 rows=236 width=20) (actual time=21.126..22.065 rows=354 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=4793
+              ->  Sort  (cost=8520.05..8520.34 rows=118 width=20) (actual time=19.306..19.309 rows=118 loops=3)
+                    Sort Key: o.store_id
+                    Sort Method: quicksort  Memory: 29kB
+                    Buffers: shared hit=4793
+                    Worker 0:  Sort Method: quicksort  Memory: 29kB
+                    Worker 1:  Sort Method: quicksort  Memory: 29kB
+                    ->  Partial HashAggregate  (cost=8514.81..8515.99 rows=118 width=20) (actual time=19.272..19.278 rows=118 loops=3)
+                          Group Key: o.store_id
+                          Batches: 1  Memory Usage: 48kB
+                          Buffers: shared hit=4779
+                          Worker 0:  Batches: 1  Memory Usage: 48kB
+                          Worker 1:  Batches: 1  Memory Usage: 48kB
+                          ->  Hash Join  (cost=476.69..8363.50 rows=15131 width=12) (actual time=16.755..18.393 rows=12362 loops=3)
+                                Hash Cond: (oi.order_id = o.order_id)
+                                Buffers: shared hit=4779
+                                ->  Parallel Seq Scan on order_items oi  (cost=0.00..7148.50 rows=281250 width=12) (actual time=0.003..7.223 rows=225000 loops=3)
+                                      Buffers: shared hit=4336
+                                ->  Hash  (cost=375.82..375.82 rows=8070 width=8) (actual time=1.269..1.269 rows=8241 loops=3)
+                                      Buckets: 16384 (originally 8192)  Batches: 1 (originally 1)  Memory Usage: 450kB
+                                      Buffers: shared hit=437
+                                      ->  Index Scan using orders_time_idx on orders o  (cost=0.42..375.82 rows=8070 width=8) (actual time=0.009..0.803 rows=8241 loops=3)
+                                            Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                            Buffers: shared hit=437
+Planning:
+  Buffers: shared hit=336
+Planning Time: 0.590 ms
+Execution Time: 22.173 ms
+=== R14 run 3 ===
+Sort  (cost=9556.09..9556.39 rows=118 width=44) (actual time=19.699..20.987 rows=118 loops=1)
+  Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (oi.quantity_delivered < oi.quantity_ordered)))::numeric) / (count(*))::numeric), 2)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=4796
+  ->  Finalize GroupAggregate  (cost=9520.07..9552.03 rows=118 width=44) (actual time=19.601..20.964 rows=118 loops=1)
+        Group Key: o.store_id
+        Buffers: shared hit=4793
+        ->  Gather Merge  (cost=9520.07..9547.61 rows=236 width=20) (actual time=19.593..20.906 rows=354 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=4793
+              ->  Sort  (cost=8520.05..8520.34 rows=118 width=20) (actual time=17.948..17.951 rows=118 loops=3)
+                    Sort Key: o.store_id
+                    Sort Method: quicksort  Memory: 29kB
+                    Buffers: shared hit=4793
+                    Worker 0:  Sort Method: quicksort  Memory: 29kB
+                    Worker 1:  Sort Method: quicksort  Memory: 29kB
+                    ->  Partial HashAggregate  (cost=8514.81..8515.99 rows=118 width=20) (actual time=17.924..17.930 rows=118 loops=3)
+                          Group Key: o.store_id
+                          Batches: 1  Memory Usage: 48kB
+                          Buffers: shared hit=4779
+                          Worker 0:  Batches: 1  Memory Usage: 48kB
+                          Worker 1:  Batches: 1  Memory Usage: 48kB
+                          ->  Hash Join  (cost=476.69..8363.50 rows=15131 width=12) (actual time=16.007..17.265 rows=12362 loops=3)
+                                Hash Cond: (oi.order_id = o.order_id)
+                                Buffers: shared hit=4779
+                                ->  Parallel Seq Scan on order_items oi  (cost=0.00..7148.50 rows=281250 width=12) (actual time=0.003..6.889 rows=225000 loops=3)
+                                      Buffers: shared hit=4336
+                                ->  Hash  (cost=375.82..375.82 rows=8070 width=8) (actual time=1.099..1.100 rows=8241 loops=3)
+                                      Buckets: 16384 (originally 8192)  Batches: 1 (originally 1)  Memory Usage: 450kB
+                                      Buffers: shared hit=437
+                                      ->  Index Scan using orders_time_idx on orders o  (cost=0.42..375.82 rows=8070 width=8) (actual time=0.009..0.672 rows=8241 loops=3)
+                                            Index Cond: ((placed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (placed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                            Buffers: shared hit=437
+Planning:
+  Buffers: shared hit=336
+Planning Time: 1.273 ms
+Execution Time: 21.067 ms

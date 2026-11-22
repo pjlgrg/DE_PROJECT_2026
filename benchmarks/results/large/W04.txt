@@ -1,0 +1,36 @@
+=== W04 run 1 ===
+Update on store_inventory  (cost=0.43..2608.22 rows=0 width=0) (actual time=0.765..0.766 rows=0 loops=1)
+  Buffers: shared hit=2318 read=15 dirtied=15
+  ->  Index Scan using store_inventory_pkey on store_inventory  (cost=0.43..2608.22 rows=502 width=18) (actual time=0.019..0.148 rows=229 loops=1)
+        Index Cond: (store_id = 43)
+        Filter: (quantity_on_hand <= reorder_level)
+        Rows Removed by Filter: 821
+        Buffers: shared hit=314 read=12
+Planning:
+  Buffers: shared hit=73
+Planning Time: 0.161 ms
+Execution Time: 0.816 ms
+=== W04 run 2 ===
+Update on store_inventory  (cost=0.43..2608.22 rows=0 width=0) (actual time=0.973..0.973 rows=0 loops=1)
+  Buffers: shared hit=2869 read=6 dirtied=2
+  ->  Index Scan using store_inventory_pkey on store_inventory  (cost=0.43..2608.22 rows=502 width=18) (actual time=0.014..0.140 rows=229 loops=1)
+        Index Cond: (store_id = 43)
+        Filter: (quantity_on_hand <= reorder_level)
+        Rows Removed by Filter: 821
+        Buffers: shared hit=634
+Planning:
+  Buffers: shared hit=73
+Planning Time: 0.163 ms
+Execution Time: 1.016 ms
+=== W04 run 3 ===
+Update on store_inventory  (cost=0.43..2608.22 rows=0 width=0) (actual time=0.631..0.632 rows=0 loops=1)
+  Buffers: shared hit=2820 read=2 dirtied=2
+  ->  Index Scan using store_inventory_pkey on store_inventory  (cost=0.43..2608.22 rows=502 width=18) (actual time=0.015..0.127 rows=229 loops=1)
+        Index Cond: (store_id = 43)
+        Filter: (quantity_on_hand <= reorder_level)
+        Rows Removed by Filter: 821
+        Buffers: shared hit=627
+Planning:
+  Buffers: shared hit=73
+Planning Time: 0.184 ms
+Execution Time: 0.675 ms
